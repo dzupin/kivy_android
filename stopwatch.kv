@@ -1,0 +1,82 @@
+#:kivy 1.11.1
+
+<StopwatchLayout>:
+    orientation: 'vertical'
+    padding: dp(20)
+    spacing: dp(15)
+    canvas.before:
+        Color:
+            rgba: 0.1, 0.12, 0.15, 1 # Dark background
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        id: time_label
+        text: "00:00.00"
+        font_size: dp(72)
+        size_hint_y: 0.4
+        halign: 'center'
+        valign: 'middle'
+        color: 0.9, 0.9, 0.9, 1 # Light text color
+
+    GridLayout:
+        cols: 2
+        spacing: dp(10)
+        size_hint_y: 0.2
+
+        Button:
+            id: start_stop_button
+            text: "Start"
+            font_size: dp(24)
+            background_normal: ''
+            background_color: 0.2, 0.6, 0.3, 1 # Greenish
+            on_press: root.toggle_start_stop()
+            size_hint_x: 0.65 # Make start/stop wider
+
+        Button:
+            id: lap_reset_button
+            text: "Lap"
+            font_size: dp(24)
+            background_normal: ''
+            background_color: 0.3, 0.3, 0.7, 1 # Bluish
+            on_press: root.lap_or_reset()
+            disabled: True # Initially disabled
+            size_hint_x: 0.35
+
+    Label:
+        text: "Laps:"
+        font_size: dp(18)
+        size_hint_y: None
+        height: self.texture_size[1] + dp(5) # Adjust height based on text
+        halign: 'left'
+        color: 0.8, 0.8, 0.8, 1
+
+    ScrollView:
+        size_hint_y: 0.4
+        bar_width: dp(8)
+        bar_color: 0.5, 0.5, 0.5, 0.8
+        bar_inactive_color: 0.3, 0.3, 0.3, 0.5
+        canvas.before:
+            Color:
+                rgba: 0.15, 0.17, 0.2, 1 # Slightly lighter background for lap area
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [dp(5),] # Slight rounding
+
+        GridLayout:
+            id: laps_layout
+            cols: 1
+            spacing: dp(5)
+            padding: dp(5)
+            size_hint_y: None
+            height: self.minimum_height # Important for ScrollView
+
+<LapLabel@Label>:
+    font_size: dp(16)
+    size_hint_y: None
+    height: self.texture_size[1] + dp(4)
+    color: 0.85, 0.85, 0.85, 1
+    halign: 'left'
+    padding_x: dp(10)
